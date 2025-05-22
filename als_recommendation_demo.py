@@ -27,11 +27,11 @@ ratings.show()
 # ✅ 在拆分训练集/测试集前开始计时
 start_time = time.time()
 
-# ✅ 4. 拆分训练集 / 测试集，避免 cold start 问题
+
 training = ratings.sample(False, 0.8, seed=42)
 test = ratings.subtract(training)
 
-# ✅ 5. 构建 ALS 模型
+
 als = ALS(
     userCol="userId",
     itemCol="productId",
@@ -39,13 +39,13 @@ als = ALS(
     maxIter=10,
     regParam=0.1,
     rank=10,
-    coldStartStrategy="drop"  # 避免预测值为 NaN
+    coldStartStrategy="drop"
 )
 
-# ✅ 6. 拟合模型
+
 model = als.fit(training)
 
-# ✅ 7. 在测试集上预测评分
+
 predictions = model.transform(test)
 
 # ✅ 8. 若无预测结果（cold start），改用训练集测试
